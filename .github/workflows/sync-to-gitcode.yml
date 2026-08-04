@@ -1,0 +1,14 @@
+name: Sync to GitCode
+on:
+  push:
+    branches: [main]
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          git remote add gitcode https://shuangzhangj:${{ secrets.GITCODE_TOKEN }}@gitcode.com/hd-vector/${{ github.event.repository.name }}.git 2>/dev/null || true
+          git push gitcode main --force
